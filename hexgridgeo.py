@@ -114,15 +114,15 @@ class Grid(namedtuple('Grid', ['hexgrid', 'projection'])):
         return self.projection.to_geopoint(point)
 
     def hex_corners(self, hex):
-        # type: (hexgrid.Hex) -> list
+        # type: (hexgrid.Hex) -> List[Point]
         corners = self.hexgrid.hex_corners(hex)
         return [self.projection.to_geopoint(p) for p in corners]
 
     def hex_neighbors(self, hex, layers):
-        # type: (hexgrid.Hex, int) -> list
-        return self.hexgrid.hex_neighbors(hex)
+        # type: (hexgrid.Hex, int) -> List[hexgrid.Hex]
+        return self.hexgrid.hex_neighbors(hex, layers)
 
     def make_region(self, geometry):
-        # type: (list) -> hexgrid.Region
+        # type: (List[Point]) -> hexgrid.Region
         points = [self.projection.to_point(p) for p in geometry]
         return self.hexgrid.make_region(points)
