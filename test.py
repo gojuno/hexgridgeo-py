@@ -1,5 +1,6 @@
 import unittest
 import logging
+import pickle
 import hexgrid
 
 from hexgridgeo import (
@@ -71,3 +72,12 @@ class TestHexgridGeo(unittest.TestCase):
         ]
         for expected_corner, corner in zip(expected_corners, corners):
             self.assertGeoPointEqual(expected_corner, corner, 0.00001)
+
+    def test_pickle(self):
+        grid = Grid(
+            projection=ProjectionSM,
+            hexgrid=hexgrid.Grid(
+                hexgrid.OrientationFlat,
+                hexgrid.Point(0, 0),
+                hexgrid.Point(500, 500)))
+        self.assertEqual(grid, pickle.loads(pickle.dumps(grid)))
